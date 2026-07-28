@@ -45,6 +45,10 @@ export default function NouvelleMissionPage() {
     setAgentsSelectionnes((prev) => (prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]));
   }
 
+  function handleCancel() {
+    router.push("/missions");
+  }
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErreur(null);
@@ -180,7 +184,10 @@ export default function NouvelleMissionPage() {
               <p className="rounded-md bg-status-danger-bg px-3 py-2 text-sm text-status-danger">{erreur}</p>
             )}
 
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-2">
+              <Button type="button" variant="outline" onClick={handleCancel}>
+                Annuler
+              </Button>
               <Button type="submit" disabled={enCours}>
                 {enCours && <Loader2 className="h-4 w-4 animate-spin" />}
                 Creer la mission
