@@ -1,6 +1,14 @@
 export type Role = "agent" | "chef_service" | "directeur" | "administrateur";
 export type StatutAgent = "present" | "en_mission" | "en_conge" | "absent";
 
+export interface DocumentMinisterielResume {
+  id: string;
+  annee: number;
+  fichier_url: string | null;
+  nom_fichier: string | null;
+  date_enregistrement: string;
+}
+
 export interface Utilisateur {
   id: string;
   matricule: string;
@@ -17,6 +25,10 @@ export interface Utilisateur {
   statut_fin: string | null;
   actif: boolean;
   date_embauche: string | null;
+  /** Solde de conge porte par l'agent : 30 j a la creation, +30 j chaque 1er janvier. */
+  solde_conge: number;
+  /** Document du ministere pour l'annee en cours (null s'il n'a pas ete depose). */
+  document_ministeriel_annee: DocumentMinisterielResume | null;
   date_joined?: string;
 }
 
@@ -45,7 +57,7 @@ export interface Unite {
 }
 
 export type StatutMission = "planifiee" | "en_cours" | "terminee" | "annulee";
-export type StatutReception = "en_attente" | "confirme" | "non_recu";
+export type StatutReception = "en_attente" | "confirme" | "refusee" | "non_recu";
 
 export interface TypeMission {
   id: string;
@@ -62,11 +74,24 @@ export interface MissionAgent {
   ordre_mission_pdf: string | null;
   confirmation_clic: boolean;
   date_confirmation_clic: string | null;
-  fichier_signe: string | null;
+  fichier_signe_url: string | null;
   statut_reception: StatutReception;
+  motif_refus: string | null;
+  justificatif_refus_url: string | null;
+  date_refus: string | null;
+  refus_automatique: boolean;
   rapport_mission: string | null;
-  rapport_fichier: string | null;
+  rapport_fichier_url: string | null;
   date_soumission_rapport: string | null;
+}
+
+export interface PieceJointe {
+  id: string;
+  fichier_url: string | null;
+  nom_fichier: string | null;
+  libelle: string;
+  description: string | null;
+  date_creation?: string;
 }
 
 export interface Mission {
@@ -82,29 +107,58 @@ export interface Mission {
   cree_par: string;
   cree_par_nom: string;
   statut: StatutMission;
+  /** Vrai tant que la periode n'a pas debute : composition encore modifiable. */
+  modifiable: boolean;
   agents_designes: MissionAgent[];
-  pieces_jointes: { id: string; fichier: string; libelle: string }[];
+  pieces_jointes: PieceJointe[];
   date_creation: string;
 }
 
+/** Agent retenu lors d'une creation / d'un ajout sur une mission. */
+export interface AgentAffecte {
+  agent: string;
+  agent_nom: string;
+  agent_matricule: string;
+}
+
+/** Agent ecarte : la mission est creee quand meme, mais sans lui. */
+export interface AgentRejete extends AgentAffecte {
+  motif: string;
+}
+
+export interface ResultatAffectation {
+  agents_ajoutes: AgentAffecte[];
+  agents_rejetes: AgentRejete[];
+}
+
+export type MissionCreee = Mission & ResultatAffectation;
+
+export interface DisponibiliteAgent {
+  agent: string;
+  agent_nom: string;
+  disponible: boolean;
+  motif: string | null;
+}
+
 export type StatutConge = "en_attente" | "validee" | "refusee" | "expiree";
-export type LibelleTypeConge = "normal" | "exceptionnel";
 
 export interface TypeConge {
   id: string;
-  libelle: LibelleTypeConge;
+  /** Libelle libre saisi par l'administrateur (« Conge annuel », « Accident »...). */
+  libelle: string;
   description: string | null;
+  /** Si faux, ce type de conge n'ampute pas le solde de l'agent. */
+  decremente_le_solde: boolean;
+  actif: boolean;
 }
 
 export interface DocumentMinisteriel {
   id: string;
   agent: string;
   agent_nom: string;
-  fichier: string;
-  date_debut_periode: string;
-  date_fin_periode: string;
-  jours_accordes: number;
-  solde_restant: number;
+  annee: number;
+  fichier_url: string | null;
+  nom_fichier: string | null;
   enregistre_par: string;
   enregistre_par_nom: string;
   date_enregistrement: string;
@@ -114,15 +168,17 @@ export interface DemandeConge {
   id: string;
   agent: string;
   agent_nom: string;
+  agent_matricule: string;
+  agent_service: string | null;
   type_conge: string;
-  type_conge_libelle: LibelleTypeConge;
-  document_ministeriel: string | null;
+  type_conge_libelle: string;
+  decremente_le_solde: boolean;
+  a_solder: boolean;
   date_debut: string;
   date_fin: string;
   nombre_jours: number;
   motif: string;
-  piece_jointe: string | null;
-  a_solder: boolean;
+  pieces_jointes: PieceJointe[];
   statut: StatutConge;
   date_limite_validation: string | null;
   valide_par: string | null;
@@ -137,21 +193,37 @@ export interface HistoriqueConge {
   agent: string;
   demande_conge: string | null;
   type_mouvement: "attribution" | "deduction" | "ajustement";
+  motif: string | null;
   jours: number;
   solde_avant: number;
   solde_apres: number;
   date_mouvement: string;
 }
 
+export interface SoldeConge {
+  agent: string;
+  solde_restant: number;
+  annee: number;
+  document_ministeriel_disponible: boolean;
+  historique: HistoriqueConge[];
+}
+
 export type TypeNotification =
   | "mission_creee"
+  | "mission_agent_retire"
+  | "rappel_confirmation"
+  | "reception_confirmee"
+  | "refus_mission"
   | "rappel_fin_mission"
   | "rapport_attendu"
+  | "rapport_soumis"
   | "non_recu"
   | "demande_conge"
   | "validation_conge"
   | "refus_conge"
-  | "alerte_solde";
+  | "alerte_solde"
+  | "attribution_solde"
+  | "document_ministeriel";
 
 export interface Notification {
   id: string;
@@ -160,6 +232,8 @@ export interface Notification {
   message: string;
   canal: "email" | "fcm" | "in_app";
   lu: boolean;
+  lien: string | null;
+  date_lecture: string | null;
   date_creation: string;
 }
 
