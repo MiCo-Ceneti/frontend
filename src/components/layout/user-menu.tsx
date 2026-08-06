@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { LogOut, User } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -20,14 +19,9 @@ function initiales(nom: string, prenom: string) {
 }
 
 export function UserMenu() {
-  const { utilisateur } = useAuth();
-  const router = useRouter();
-
-  async function deconnexion() {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/login");
-    router.refresh();
-  }
+  // La deconnexion est portee par l'AuthProvider : purge des cookies,
+  // desenregistrement du jeton FCM puis retour au login.
+  const { utilisateur, deconnexion } = useAuth();
 
   return (
     <DropdownMenu>
@@ -52,7 +46,7 @@ export function UserMenu() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={deconnexion} className="text-status-danger focus:text-status-danger">
+        <DropdownMenuItem onClick={() => deconnexion()} className="text-status-danger focus:text-status-danger">
           <LogOut className="h-4 w-4" />
           Se deconnecter
         </DropdownMenuItem>

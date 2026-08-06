@@ -15,6 +15,10 @@ export function LoginForm() {
   const [erreur, setErreur] = React.useState<string | null>(null);
   const [enCours, setEnCours] = React.useState(false);
 
+  // Session expiree : message informatif pose par l'AuthProvider lorsqu'il a
+  // du sortir l'utilisateur apres l'echec definitif du refresh.
+  const sessionExpiree = searchParams.get("expire") === "1";
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErreur(null);
@@ -34,7 +38,7 @@ export function LoginForm() {
       }
 
       const next = searchParams.get("next") || "/";
-      router.push(next);
+      router.replace(next);
       router.refresh();
     } catch {
       setErreur("Impossible de contacter le serveur. Reessayez.");
@@ -69,6 +73,12 @@ export function LoginForm() {
           required
         />
       </div>
+
+      {sessionExpiree && !erreur && (
+        <p className="rounded-md bg-status-warning-bg px-3 py-2 text-sm text-status-warning">
+          Votre session a expire. Merci de vous reconnecter.
+        </p>
+      )}
 
       {erreur && (
         <p className="rounded-md bg-status-danger-bg px-3 py-2 text-sm text-status-danger">{erreur}</p>
