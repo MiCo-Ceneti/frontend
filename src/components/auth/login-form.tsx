@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { usePush } from "../providers/push-provider";
 
 export function LoginForm() {
   const router = useRouter();
@@ -14,6 +15,7 @@ export function LoginForm() {
   const [password, setPassword] = React.useState("");
   const [erreur, setErreur] = React.useState<string | null>(null);
   const [enCours, setEnCours] = React.useState(false);
+  const { activerNotifications } = usePush(); // Hook from PushProvider to handle push notifications
 
   // Session expiree : message informatif pose par l'AuthProvider lorsqu'il a
   // du sortir l'utilisateur apres l'echec definitif du refresh.
@@ -36,6 +38,8 @@ export function LoginForm() {
         setErreur(data.detail ?? "Identifiants incorrects.");
         return;
       }
+
+      activerNotifications();
 
       const next = searchParams.get("next") || "/";
       router.replace(next);

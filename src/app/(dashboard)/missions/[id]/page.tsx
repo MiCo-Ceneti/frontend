@@ -144,9 +144,9 @@ export default function MissionDetailPage() {
         `missions/${mission.id}/agents/${utilisateur.id}/ordre-mission/`
       );
       
-      console.log("Ordre de mission URL:", url);
+      //console.log("Ordre de mission URL:", url);
       
-      //window.open(url, "_blank", "noreferrer");
+      window.open(url, "_blank", "noreferrer");
     } catch (err) {
       toast.error(messageErreur(err, "Ordre de mission indisponible pour le moment."));
     }
