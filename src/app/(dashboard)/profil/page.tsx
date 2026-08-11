@@ -139,12 +139,12 @@ export default function ProfilPage() {
 
         <div className="flex flex-col gap-6">
           {/* -------------------------------------------------------------
-              Document ministeriel de l'annee : sa seule utilite dans le
+              Décision ministerielle de l'annee : sa seule utilite dans le
               systeme est d'etre consultable et telechargeable ici.
              ------------------------------------------------------------- */}
           <Card>
             <CardHeader>
-              <CardTitle>Document ministeriel {anneeCourante}</CardTitle>
+              <CardTitle>Décision ministerielle {anneeCourante}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-3">
               {document ? (

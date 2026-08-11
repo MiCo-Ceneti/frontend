@@ -155,7 +155,7 @@ export const TYPE_NOTIFICATION_LABELS: Record<TypeNotification, string> = {
   refus_conge: "Conge refuse",
   alerte_solde: "Solde de conge",
   attribution_solde: "Attribution de solde",
-  document_ministeriel: "Document ministeriel",
+  document_ministeriel: "Décision ministerielle",
 };
 
 export const LIEN_NOTIFICATION: Record<TypeNotification, string> = {

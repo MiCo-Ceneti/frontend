@@ -81,7 +81,7 @@ export default function CongesPage() {
           <CardContent className="flex items-center justify-between p-5">
             <div>
               <p className="text-xs text-muted-foreground">
-                Document ministeriel {solde?.annee ?? new Date().getFullYear()}
+                Décision ministerielle {solde?.annee ?? new Date().getFullYear()}
               </p>
               <p className="mt-1 text-sm font-medium">
                 {utilisateur.document_ministeriel_annee ? "Disponible" : "Non depose"}
