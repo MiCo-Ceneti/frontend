@@ -136,7 +136,7 @@ export default function AdminParametresPage() {
   }
 
   /**
-   * Depot du document ministeriel : c'est un VRAI fichier (scan image ou PDF)
+   * Depot du Décision ministerielle : c'est un VRAI fichier (scan image ou PDF)
    * televerse en multipart, plus aucun lien a coller. Le backend le pousse sur
    * Cloudinary, et l'agent le retrouve sur sa page profil.
    */
@@ -153,7 +153,7 @@ export default function AdminParametresPage() {
         annee: Number(doc.annee),
         fichier: docFichier,
       });
-      toast.success("Document ministeriel enregistre. L'agent en a ete informe.");
+      toast.success("Décision ministerielle enregistre. L'agent en a ete informe.");
       setDoc(DOC_INITIAL);
       setDocFichier(null);
       setDialogDoc(false);
@@ -186,14 +186,14 @@ export default function AdminParametresPage() {
     <div>
       <PageHeader
         title="Parametres"
-        description="Types de mission et de conge, documents ministeriels et regles de validation"
+        description="Types de mission et de conge, Décisions ministerielles et regles de validation"
       />
 
       <Tabs defaultValue="conges">
         <TabsList>
           <TabsTrigger value="conges">Types de conge</TabsTrigger>
           <TabsTrigger value="missions">Types de mission</TabsTrigger>
-          <TabsTrigger value="documents">Documents ministeriels</TabsTrigger>
+          <TabsTrigger value="documents">Décisions ministerielles</TabsTrigger>
           <TabsTrigger value="validation">Validation des conges</TabsTrigger>
         </TabsList>
 
@@ -359,7 +359,7 @@ export default function AdminParametresPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
-                <CardTitle>Documents ministeriels</CardTitle>
+                <CardTitle>Décisions ministerielles</CardTitle>
                 <p className="mt-1 text-xs text-muted-foreground">
                   Un document par agent et par annee. Il est uniquement consultable et
                   telechargeable par l&apos;agent depuis son profil.
@@ -374,7 +374,7 @@ export default function AdminParametresPage() {
                 </DialogTrigger>
                 <DialogContent className="max-w-lg">
                   <DialogHeader>
-                    <DialogTitle>Nouveau document ministeriel</DialogTitle>
+                    <DialogTitle>Nouvelle Décision ministerielle</DialogTitle>
                     <DialogDescription>
                       Televersez le scan ou le PDF transmis par le ministere.
                     </DialogDescription>
@@ -481,7 +481,7 @@ export default function AdminParametresPage() {
             <CardContent className="flex flex-col gap-4">
               <p className="text-sm text-muted-foreground">
                 Mode applique par defaut a tous les services qui n&apos;ont pas de parametre
-                specifique. C&apos;est ce parametre — et non le document ministeriel — qui accorde
+                specifique. C&apos;est ce parametre — et non le Décision ministerielle — qui accorde
                 les conges.
               </p>
               <div className="flex items-center gap-3">

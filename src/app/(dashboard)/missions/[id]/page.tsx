@@ -143,6 +143,9 @@ export default function MissionDetailPage() {
       const { url } = await api.get<{ url: string }>(
         `missions/${mission.id}/agents/${utilisateur.id}/ordre-mission/`
       );
+      
+      //console.log("Ordre de mission URL:", url);
+      
       window.open(url, "_blank", "noreferrer");
     } catch (err) {
       toast.error(messageErreur(err, "Ordre de mission indisponible pour le moment."));

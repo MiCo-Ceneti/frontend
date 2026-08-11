@@ -95,7 +95,7 @@ src/
 ## Limite connue
 
 Les champs necessitant un fichier (signature d'ordre de mission, piece justificative de conge,
-document ministeriel) attendent une **URL** (Cloudinary) plutot qu'un vrai widget d'upload dans
+Décision ministerielle) attendent une **URL** (Cloudinary) plutot qu'un vrai widget d'upload dans
 cette premiere version. Pour brancher un upload direct depuis le navigateur, ajouter les variables
 `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` et `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET` (upload non signe) et
 remplacer les champs `Input` concernes par un vrai composant d'upload.
