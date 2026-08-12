@@ -113,6 +113,11 @@ export default function ProfilPage() {
                 <p className="text-xs text-muted-foreground">Service</p>
                 <p className="mt-1">{utilisateur.service_nom || "-"}</p>
               </div>
+              
+              <div>
+                <p className="text-xs text-muted-foreground">Poste</p>
+                <p className="mt-1">{utilisateur.poste || "-"}</p>
+              </div>
               <div>
                 <p className="text-xs text-muted-foreground">Direction</p>
                 <p className="mt-1">{utilisateur.direction_nom || "-"}</p>
