@@ -25,7 +25,7 @@ const ROLES: Role[] = ["agent", "chef_service", "directeur", "administrateur"];
 
 const FORM_INITIAL = {
   matricule: "", nom: "", prenom: "", email: "", telephone: "",
-  role: "agent" as Role, service: "", password: "",
+  role: "agent" as Role, poste: "", service: "", password: "",
 };
 
 export default function AdminUtilisateursPage() {
@@ -133,6 +133,10 @@ export default function AdminUtilisateursPage() {
                     </Select>
                   </div>
                   <div className="flex flex-col gap-1.5">
+                    <Label htmlFor="poste">Poste</Label>
+                    <Input id="poste" value={form.poste} onChange={(e) => setForm({ ...form, poste: e.target.value })} />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
                     <Label>Service</Label>
                     <Select value={form.service} onValueChange={(v) => setForm({ ...form, service: v })}>
                       <SelectTrigger><SelectValue placeholder="Aucun" /></SelectTrigger>
@@ -171,6 +175,7 @@ export default function AdminUtilisateursPage() {
                 <TableRow>
                   <TableHead>Agent</TableHead>
                   <TableHead>Service</TableHead>
+                  <TableHead>Poste</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead>Statut</TableHead>
                   <TableHead>Compte</TableHead>
@@ -184,6 +189,7 @@ export default function AdminUtilisateursPage() {
                       <p className="font-mono text-xs text-muted-foreground">{u.matricule} — {u.email}</p>
                     </TableCell>
                     <TableCell className="text-muted-foreground">{u.service_nom || "-"}</TableCell>
+                    <TableCell>{u.poste || "-"}</TableCell>
                     <TableCell>{ROLE_LABELS[u.role]}</TableCell>
                     <TableCell><AgentStatusBadge statut={u.statut} /></TableCell>
                     <TableCell>

@@ -18,6 +18,7 @@ export interface Utilisateur {
   email: string;
   telephone: string;
   role: Role;
+  poste: string | null;
   service: string | null;
   service_nom: string | null;
   direction_nom: string | null;
@@ -71,6 +72,7 @@ export interface MissionAgent {
   agent: string;
   agent_nom: string;
   agent_matricule: string;
+  agent_poste: string | null;
   ordre_mission_pdf: string | null;
   confirmation_clic: boolean;
   date_confirmation_clic: string | null;
