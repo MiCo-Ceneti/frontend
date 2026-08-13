@@ -101,6 +101,7 @@ export interface Mission {
   motif: string;
   type_mission: string;
   type_mission_libelle: string;
+  depart:string;
   destination_type: "ville_autre" | "exterieur_pays";
   destination: string;
   date_debut: string;
