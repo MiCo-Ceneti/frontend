@@ -156,6 +156,9 @@ export const TYPE_NOTIFICATION_LABELS: Record<TypeNotification, string> = {
   alerte_solde: "Solde de conge",
   attribution_solde: "Attribution de solde",
   document_ministeriel: "Décision ministerielle",
+  note_conge_disponible: "Note de conge disponible",
+  connexion: "Connexion au compte",
+  compte_cree: "Compte cree",
 };
 
 export const LIEN_NOTIFICATION: Record<TypeNotification, string> = {
@@ -174,4 +177,7 @@ export const LIEN_NOTIFICATION: Record<TypeNotification, string> = {
   alerte_solde: "/conges",
   attribution_solde: "/conges",
   document_ministeriel: "/profil",
+  note_conge_disponible: "/conges",
+  connexion: "/profil",
+  compte_cree: "/profil",
 };

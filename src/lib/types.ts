@@ -188,6 +188,8 @@ export interface DemandeConge {
   date_validation: string | null;
   commentaire_refus: string | null;
   date_soumission: string;
+  /** Present une fois la note de conge generee (visible apres validation). */
+  note_conge_pdf: string | null;
 }
 
 export interface HistoriqueConge {
@@ -225,7 +227,10 @@ export type TypeNotification =
   | "refus_conge"
   | "alerte_solde"
   | "attribution_solde"
-  | "document_ministeriel";
+  | "document_ministeriel"
+  | "note_conge_disponible"
+  | "connexion"
+  | "compte_cree";
 
 export interface Notification {
   id: string;
