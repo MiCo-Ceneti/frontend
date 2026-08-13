@@ -72,16 +72,37 @@ export function PushProvider({ children }: { children: React.ReactNode }) {
     return reussi;
   }, [enregistrerJeton]);
 
-  // Au montage : si la permission est deja accordee, on (re)synchronise le
-  // jeton silencieusement. Sinon on attend une action explicite de l'utilisateur.
+  // Au montage (donc a chaque connexion, ce composant etant monte dans le
+  // layout du dashboard) :
+  //  - permission deja accordee -> on (re)synchronise le jeton silencieusement
+  //  - permission jamais demandee ET aucun jeton connu sur cet appareil ->
+  //    on sollicite l'autorisation immediatement, sans attendre une action
+  //    explicite de l'utilisateur
+  //  - permission refusee -> on ne redemande jamais (respect du choix)
   React.useEffect(() => {
     if (!disponible) {
       setPermission("indisponible");
       return;
     }
     setPermission(Notification.permission);
+
     if (Notification.permission === "granted") {
       enregistrerJeton();
+      return;
+    }
+
+    if (Notification.permission === "default") {
+      let dejaConnu: string | null = null;
+      try {
+        dejaConnu = window.localStorage.getItem(CLE_STOCKAGE_DEVICE_TOKEN);
+      } catch {
+        dejaConnu = null;
+      }
+      if (!dejaConnu) {
+        enregistrerJeton().then(() => {
+          setPermission(Notification.permission);
+        });
+      }
     }
   }, [disponible, enregistrerJeton]);
 

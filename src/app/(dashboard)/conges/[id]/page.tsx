@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Check, Info, Loader2, Paperclip, X } from "lucide-react";
+import { Check, Download, Info, Loader2, Paperclip, X } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { CongeStatusBadge } from "@/components/shared/status-badges";
 import { ConfirmDialog } from "@/components/shared/confirm-dialog";
@@ -37,6 +37,7 @@ export default function DemandeCongeDetailPage() {
   const [dialogRefus, setDialogRefus] = React.useState(false);
   const [dialogValidation, setDialogValidation] = React.useState(false);
   const [actionEnCours, setActionEnCours] = React.useState(false);
+  const [telechargementEnCours, setTelechargementEnCours] = React.useState(false);
 
   const charger = React.useCallback(async () => {
     try {
@@ -86,6 +87,19 @@ export default function DemandeCongeDetailPage() {
     }
   }
 
+  async function telechargerNote() {
+    if (!demande) return;
+    setTelechargementEnCours(true);
+    try {
+      const { url } = await api.get<{ url: string }>(`conges/demandes/${demande.id}/note-conge/`);
+      window.open(url, "_blank", "noreferrer");
+    } catch (err) {
+      toast.error(messageErreur(err, "Note de conge indisponible pour le moment."));
+    } finally {
+      setTelechargementEnCours(false);
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex flex-col gap-4">
@@ -98,6 +112,9 @@ export default function DemandeCongeDetailPage() {
   if (!demande) {
     return <p className="text-sm text-muted-foreground">Demande introuvable.</p>;
   }
+
+  const peutTelechargerNote =
+    demande.statut === "validee" && demande.agent === utilisateur.id;
 
   const peutTraiter =
     estResponsable && demande.statut === "en_attente" && demande.agent !== utilisateur.id;
@@ -244,6 +261,31 @@ export default function DemandeCongeDetailPage() {
                 {soldeApres !== null && soldeApres < 0 && (
                   <p className="rounded-md bg-status-danger-bg px-3 py-2 text-xs text-status-danger">
                     Solde insuffisant : la validation sera refusee par le systeme.
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {peutTelechargerNote && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Note de conge</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-2">
+                {demande.note_conge_pdf ? (
+                  <Button onClick={telechargerNote} disabled={telechargementEnCours}>
+                    {telechargementEnCours ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Download className="h-4 w-4" />
+                    )}
+                    Telecharger le PDF
+                  </Button>
+                ) : (
+                  <p className="text-xs text-muted-foreground">
+                    La note de conge est en cours de generation. Elle sera bientot
+                    disponible au telechargement.
                   </p>
                 )}
               </CardContent>

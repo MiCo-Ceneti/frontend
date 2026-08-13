@@ -85,6 +85,15 @@ export default function NouvelleMissionPage() {
       setErreur("Selectionnez au moins un agent.");
       return;
     }
+    if (!form.motif) {
+      setErreur("Saisissez un motif de mission.");
+      return;
+    }
+    if (!form.moyen_transport || form.moyen_transport.trim() === "") {
+      setErreur("Saisissez un moyen de transport.");
+      return;
+    }
+    
     if (!form.type_mission) {
       setErreur("Selectionnez un type de mission.");
       return;
@@ -215,11 +224,12 @@ export default function NouvelleMissionPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="moyen_transport">Moyen de transport (optionnel)</Label>
+              <Label htmlFor="moyen_transport">Moyen de transport </Label>
               <Input
                 id="moyen_transport"
                 value={form.moyen_transport}
                 onChange={(e) => setForm({ ...form, moyen_transport: e.target.value })}
+                required
               />
             </div>
 
