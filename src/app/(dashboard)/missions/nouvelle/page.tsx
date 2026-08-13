@@ -42,7 +42,7 @@ export default function NouvelleMissionPage() {
   const [form, setForm] = React.useState({
     motif: "",
     //060307
-    type_mission: "0b23478c-9842-4cee-9f80-02575f763653",
+    type_mission: "74e53cbd-fef2-4a61-b210-254926febf66",
     depart:"",
     destination_type: "ville_autre",
     destination: "",
