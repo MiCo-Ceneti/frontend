@@ -43,6 +43,7 @@ export default function NouvelleMissionPage() {
     motif: "",
     //060307
     type_mission: "0b23478c-9842-4cee-9f80-02575f763653",
+    depart:"",
     destination_type: "ville_autre",
     destination: "",
     date_debut: "",
@@ -153,8 +154,8 @@ export default function NouvelleMissionPage() {
               />
             </div>
 
-            <div className="hidden gap-4 sm:grid-cols-2">
-              <div className="flex flex-col gap-1.5">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="hidden flex-col gap-1.5">
                 <Label>Type de mission</Label>
                 <Select
                   value={form.type_mission}
@@ -190,14 +191,26 @@ export default function NouvelleMissionPage() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="destination">Ville / pays de destination</Label>
-              <Input
-                id="destination"
-                value={form.destination}
-                onChange={(e) => setForm({ ...form, destination: e.target.value })}
-                required
-              />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="destination">Ville / pays de Depart</Label>
+                <Input
+                  id="depart"
+                  value={form.depart}
+                  onChange={(e) => setForm({ ...form, depart: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="destination">Ville / pays de destination</Label>
+                <Input
+                  id="destination"
+                  value={form.destination}
+                  onChange={(e) => setForm({ ...form, destination: e.target.value })}
+                  required
+                />
+              </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
