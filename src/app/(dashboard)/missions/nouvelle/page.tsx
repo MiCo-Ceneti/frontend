@@ -153,8 +153,8 @@ export default function NouvelleMissionPage() {
               />
             </div>
 
-            <div className="hidden gap-4 sm:grid-cols-2">
-              <div className="flex flex-col gap-1.5">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="hidden flex-col gap-1.5">
                 <Label>Type de mission</Label>
                 <Select
                   value={form.type_mission}
