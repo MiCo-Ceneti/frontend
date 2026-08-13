@@ -94,7 +94,7 @@ export default function DemandeCongeDetailPage() {
       const { url } = await api.get<{ url: string }>(`conges/demandes/${demande.id}/note-conge/`);
       window.open(url, "_blank", "noreferrer");
     } catch (err) {
-      toast.error(messageErreur(err, "Note de conge indisponible pour le moment."));
+      toast.error(messageErreur(err, "Note de service indisponible pour le moment."));
     } finally {
       setTelechargementEnCours(false);
     }
@@ -270,7 +270,7 @@ export default function DemandeCongeDetailPage() {
           {peutTelechargerNote && (
             <Card>
               <CardHeader>
-                <CardTitle>Note de conge</CardTitle>
+                <CardTitle>Note de service</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-2">
                 {demande.note_conge_pdf ? (
@@ -284,7 +284,7 @@ export default function DemandeCongeDetailPage() {
                   </Button>
                 ) : (
                   <p className="text-xs text-muted-foreground">
-                    La note de conge est en cours de generation. Elle sera bientot
+                    La Note de service est en cours de generation. Elle sera bientot
                     disponible au telechargement.
                   </p>
                 )}

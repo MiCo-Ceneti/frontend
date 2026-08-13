@@ -188,7 +188,7 @@ export interface DemandeConge {
   date_validation: string | null;
   commentaire_refus: string | null;
   date_soumission: string;
-  /** Present une fois la note de conge generee (visible apres validation). */
+  /** Present une fois la Note de service generee (visible apres validation). */
   note_conge_pdf: string | null;
 }
 

@@ -156,7 +156,7 @@ export const TYPE_NOTIFICATION_LABELS: Record<TypeNotification, string> = {
   alerte_solde: "Solde de conge",
   attribution_solde: "Attribution de solde",
   document_ministeriel: "Décision ministerielle",
-  note_conge_disponible: "Note de conge disponible",
+  note_conge_disponible: "Note de service disponible",
   connexion: "Connexion au compte",
   compte_cree: "Compte cree",
 };

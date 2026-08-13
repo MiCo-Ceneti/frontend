@@ -41,7 +41,8 @@ export default function NouvelleMissionPage() {
 
   const [form, setForm] = React.useState({
     motif: "",
-    type_mission: "",
+    //060307
+    type_mission: "0b23478c-9842-4cee-9f80-02575f763653",
     destination_type: "ville_autre",
     destination: "",
     date_debut: "",
@@ -121,9 +122,9 @@ export default function NouvelleMissionPage() {
       });
 
       if ((mission.agents_rejetes ?? []).length === 0) {
-        toast.success("Mission creee. Les ordres de mission sont en cours de generation.");
+        toast.success("Mission créée. Les ordres de mission sont en cours de generation.");
       } else {
-        toast.warning("Mission creee, mais certains agents n'ont pas pu etre affectes.");
+        toast.warning("Mission créée, mais certains agents n'ont pas pu etre affectes.");
       }
     } catch (err) {
       setErreur(messageErreur(err, "Impossible de creer la mission. Verifiez les champs."));
@@ -143,7 +144,7 @@ export default function NouvelleMissionPage() {
         <Card className="lg:col-span-2">
           <CardContent className="flex flex-col gap-4 p-5">
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="motif">Motif de la mission</Label>
+              <Label htmlFor="motif">But de la mission</Label>
               <Textarea
                 id="motif"
                 value={form.motif}
@@ -152,7 +153,7 @@ export default function NouvelleMissionPage() {
               />
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="hidden gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
                 <Label>Type de mission</Label>
                 <Select
@@ -326,7 +327,7 @@ export default function NouvelleMissionPage() {
         }}
         ajoutes={resultat?.ajoutes ?? []}
         rejetes={resultat?.rejetes ?? []}
-        titre="Mission creee"
+        titre="Mission créée"
         onContinuer={() => {
           if (resultat) router.push(`/missions/${resultat.missionId}`);
         }}
