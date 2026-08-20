@@ -31,12 +31,20 @@ export default function DashboardPage() {
         title={`Bonjour, ${utilisateur.prenom}`}
         description={`${ROLE_LABELS[utilisateur.role]} — vue d'ensemble de votre perimetre`}
         action={
-          <Button variant="outline" size="sm" asChild>
-            <a href="/api/backend/dashboard/export/?format=pdf" target="_blank" rel="noreferrer">
-              <Download className="h-4 w-4" />
-              Exporter (PDF)
-            </a>
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <a href="/api/backend/dashboard/export/?doc_format=pdf" target="_blank" rel="noreferrer">
+                <Download className="h-4 w-4" />
+                Exporter (PDF)
+              </a>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <a href="/api/backend/dashboard/export/?doc_format=xlsx" target="_blank" rel="noreferrer">
+                <Download className="h-4 w-4" />
+                Exporter (Excel)
+              </a>
+            </Button>
+          </div>
         }
       />
 
